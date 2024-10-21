@@ -43,10 +43,6 @@ def train_perceptron(X_train, y_train, W, b, epochs=50, batch_size=100, learning
     m = X_train.shape[0]
 
     for epoch in range(epochs):
-        indices = np.arange(m)
-        np.random.shuffle(indices)
-        X_train = X_train[indices]
-        y_train = y_train[indices]
 
         for i in range(0, m, batch_size):
             X_batch = X_train[i:i + batch_size]
@@ -54,15 +50,14 @@ def train_perceptron(X_train, y_train, W, b, epochs=50, batch_size=100, learning
 
             y_pred = forward_propagation(X_batch, W, b)
 
-            loss = cross_entropy_loss(y_batch, y_pred)
+            error = y_batch - y_pred
 
-            grad_w = np.dot(X_batch.T, (y_pred - y_batch)) / batch_size
-            grad_b = np.sum(y_pred - y_batch, axis=0) / batch_size
+            grad_w = np.dot(X_batch.T, error) 
+            grad_b = np.sum(error, axis=0)
 
-            W -= learning_rate * grad_w
-            b -= learning_rate * grad_b
+            W += learning_rate * grad_w
+            b += learning_rate * grad_b
 
-        print(f"Epoch {epoch + 1}/{epochs}, Loss: {loss:.4f}")
 
     return W, b
 
@@ -72,6 +67,8 @@ def test_perceptron(X_test, y_test, W, b):
     true_labels = np.argmax(y_test, axis=1)
     accuracy = accuracy_score(true_labels, predictions)
     return accuracy
+
+
 
 train_X, train_Y = download_mnist(is_train=True)
 test_X, test_Y = download_mnist(is_train=False)
