@@ -16,7 +16,7 @@ def download_mnist(is_train: bool):
     for image, label in dataset:
         mnist_data.append(image)
         mnist_labels.append(label)
-    
+
     return np.array(mnist_data), np.array(mnist_labels)
 
 def normalize_data(data):
@@ -30,9 +30,6 @@ def one_hot_encode(labels, num_classes=10):
 def softmax(z):
     exp_z = np.exp(z - np.max(z, axis=1, keepdims=True))  
     return exp_z / np.sum(exp_z, axis=1, keepdims=True)
-
-def cross_entropy_loss(y_true, y_pred):
-    return -np.sum(y_true * np.log(y_pred + 1e-8)) / y_true.shape[0]
 
 def forward_propagation(X, W, b):
     z = np.dot(X, W) + b  
@@ -57,7 +54,6 @@ def train_perceptron(X_train, y_train, W, b, epochs=50, batch_size=100, learning
 
             W += learning_rate * grad_w
             b += learning_rate * grad_b
-
 
     return W, b
 
