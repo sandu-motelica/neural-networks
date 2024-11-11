@@ -12,7 +12,6 @@ def preprocess_data():
 
     y_train = one_hot_encode(y_train, 10)
     y_test = one_hot_encode(y_test, 10)
-    print(y_train.shape[0])
     return x_train, y_train, x_test, y_test
 
 def main():
@@ -22,10 +21,10 @@ def main():
     learning_rate = 0.01
     epochs = 20
     batch_size = 30
-    patience = 5
+    max_no_improve_epochs = 5
     decay_factor = 0.5
 
-    weights, biases = train_network(x_train, y_train, layer_sizes, activation_functions, learning_rate, epochs, batch_size, patience, decay_factor)
+    weights, biases = train_network(x_train, y_train, layer_sizes, activation_functions, learning_rate, epochs, batch_size, max_no_improve_epochs, decay_factor)
 
     # test set
     _, activations = forward_propagation(x_test, weights, biases, activation_functions)

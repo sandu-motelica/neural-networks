@@ -15,9 +15,9 @@ def download_mnist(is_train):
     return np.array(data), np.array(labels)
 
 def one_hot_encode(labels, num_classes):
-    encoded = np.zeros((labels.size, num_classes))
-    encoded[np.arange(labels.size), labels] = 1
-    return encoded
+    one_hot = np.zeros((labels.size, num_classes))
+    one_hot[np.arange(labels.size), labels] = 1
+    return one_hot
 
 def sigmoid(z):
     return 1 / (1 + np.exp(-z))
@@ -36,10 +36,10 @@ def softmax(z):
     exp_z = np.exp(z - np.max(z, axis=1, keepdims=True))
     return exp_z / np.sum(exp_z, axis=1, keepdims=True)
 
-def he_initialization(size_in, size_out):
-    std = np.sqrt(2 / size_in)
-    return np.random.randn(size_in, size_out) * std
+def he_initialization(fan_in, fan_out):
+    std = np.sqrt(2 / fan_in)
+    return np.random.randn(fan_in, fan_out) * std
 
-def xavier_initialization(size_in, size_out):
-    limit = np.sqrt(6 / (size_in + size_out))
-    return np.random.uniform(-limit, limit, (size_in, size_out))
+def xavier_initialization(fan_in, fan_out):
+    limit = np.sqrt(6 / (fan_in + fan_out))
+    return np.random.uniform(-limit, limit, (fan_in, fan_out))

@@ -67,7 +67,7 @@ def backpropagation(X, y, weights, biases, z_values, activations, activation_fun
     return weights, biases
 
 
-def train_network(X, y, layer_sizes, activation_functions, learning_rate, epochs, batch_size, patience, decay_factor):
+def train_network(X, y, layer_sizes, activation_functions, learning_rate, epochs, batch_size, max_no_improve_epochs, decay_factor):
     weights, biases = initialize_parameters(layer_sizes, activation_functions)
     best_accuracy = 0
     no_improvement_count = 0
@@ -96,8 +96,8 @@ def train_network(X, y, layer_sizes, activation_functions, learning_rate, epochs
         else:
             no_improvement_count += 1
 
-        # decay the learning rate if no improvement is seen for `patience` epochs
-        if no_improvement_count >= patience:
+        # decay the learning rate if no improvement is seen
+        if no_improvement_count >= max_no_improve_epochs:
             learning_rate *= decay_factor
             print(f"Learning rate reduced to {learning_rate:.5f}")
             no_improvement_count = 0
